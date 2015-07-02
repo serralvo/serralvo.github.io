@@ -1,6 +1,6 @@
 ---
 published: true
-title: Hello world
+title: Olá, mundo.
 layout: post
 ---
 Lá vamos nós (mais uma vez).
