@@ -1,0 +1,10 @@
+excerpt_separator: ""
+pygments: true
+markdown: kramdown
+url: http://serralvo.github.io
+title: Fabricio Serralvo - ios dev
+email: fabricio.serralvo@gmail.com
+author: Fabricio Serralvo
+description: My awesome new site
+paginate: 5
+google_analytics: 
