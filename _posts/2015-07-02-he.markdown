@@ -1,6 +1,6 @@
 ---
 published: true
-title: Olá, mundo.
+title: print("hello world")
 layout: post
 ---
-Lá vamos nós (mais uma vez).
+One more time 😙
