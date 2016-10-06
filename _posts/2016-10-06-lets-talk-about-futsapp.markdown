@@ -1,12 +1,12 @@
 ---
 published: false
-title: Lets talk about FutsApp 😎
+title: Let's talk about FutsApp 😎
 layout: post
 ---
-Some days ago I shared here my enthusiasm about my new project, FutsApp.
+A few days ago I shared here my enthusiasm about my new project, FutsApp.
 
-Now, after the release, you can get more details, so, lets go:
+Now, after the release, you can get more details, so, let's go:
 
-What was the big idea? Basically, when you organize a football match, some people doesn't respond the invite (this is bad, I think 😒), so, organisers needs to talk with each one to know if the player will go.
+What was the big idea? Basically, when you organize a soccer match, some people don't reply to the invitation (this is bad, I think 😒), so organizers need to talk to each one to know if the player will go.
 
-TODO: Features and next steps
+TO-DO: Features and next steps
