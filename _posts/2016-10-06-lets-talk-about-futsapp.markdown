@@ -9,4 +9,8 @@ Now, after the release, you can get more details, so, let's go:
 
 What was the big idea? Basically, when you organize a soccer match, some people don't reply to the invitation (this is bad, I think 😒), so organizers need to talk to each one to know if the player will go.
 
-TO-DO: Features and next steps
+Features 🚀
+
+In the app you can create groups and invite your friends to play with you, once in a group, the user will recieve notifications when some events happen, like a new game avaiable or when the game reach the minimum players.
+
+Next Steps 🏃
