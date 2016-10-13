@@ -14,3 +14,5 @@ Features 🚀
 In the app you can create groups and invite your friends to play with you, once in a group, the user will recieve notifications when some events happen, like a new game avaiable or when the game reach the minimum players.
 
 Next Steps 🏃
+
+In a future I want include special 🌟 features: more notifications, public profile page, players statistic, generate teams and a way to manage group money (sometimes the organizer needs to collect the money).
