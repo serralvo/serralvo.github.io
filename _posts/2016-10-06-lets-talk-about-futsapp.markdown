@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Let's talk about FutsApp 😎
 layout: post
 ---
