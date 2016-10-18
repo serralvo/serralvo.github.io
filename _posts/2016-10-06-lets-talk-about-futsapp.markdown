@@ -15,4 +15,5 @@ In the app you can create groups and invite your friends to play with you, once 
 
 Next Steps 🏃
 
-In a future I want include special 🌟 features: more notifications, public profile page, players statistic, generate teams and a way to manage group money (sometimes the organizer needs to collect the money).
+In the future I want to include special 🌟 features: more notifications, public profile page, players statistic, generate teams and a way to manage group money (sometimes the organizer needs to collect the money).
+
