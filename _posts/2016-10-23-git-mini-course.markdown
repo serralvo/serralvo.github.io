@@ -3,15 +3,16 @@ published: false
 title: Git Mini-course
 layout: post
 ---
-One month ago I was in the 18th edition of Semana Integrada (an event promoted by PUC Campinas - more info here), in this event I had the opportunity to talk about Git, it was an awesome 🙌 experience and here I'll tell why.
+
+PUC-Campinas' XVIII Integration Week took place a month ago, and there I had the opportunity to about Git. It was an awesome experience, and here I'll explain why!
 
 ### The Event
 
-Semana Integrada is an event in PUC Campinas that offers activities to CEATECs (Centre for Exact Sciences, Technology, and the Environment) students. Are offered activities like mini-courses, lectures, and workshops.
+The Integration Week is an event hosted by PUC-Campinas and organized by volunteer students from CEATEC (Center of Exact, Environmental and Technological Sciences), where great activities are offered, like mini courses, lectures and workshops.
 
 ### Mini-course's Objective
 
-Version control, in general, is an important tool in software development process, nowaday every company in the world use some version control software. The mini-course objective was to introduce basic version control concepts and practice it in an activity using Github's platform.
+Version control, in general, is an essencial tool in software development process. Nowadays every company in the world use some kind of version control software. The mini course objective was to introduce basic version control concepts and practice it in an activity using Github's platform.
 
 ### Material
 
