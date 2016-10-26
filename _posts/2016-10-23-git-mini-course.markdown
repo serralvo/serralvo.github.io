@@ -4,7 +4,7 @@ title: Git Mini-course
 layout: post
 ---
 
-PUC-Campinas' XVIII Integration Week took place a month ago, and there I had the opportunity to about Git. It was an awesome experience, and here I'll explain why!
+PUC-Campinas' XVIII Integration Week took place a month ago, and there I had the opportunity to talk about Git. It was an awesome experience, and here I'll explain why!
 
 ### The Event
 
