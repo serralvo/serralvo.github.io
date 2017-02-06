@@ -1,9 +1,9 @@
 ---
 published: true
-title: Let's talk about FutsApp 😎
+title: Let's talk about Futs 😎
 layout: post
 ---
-A few days ago I shared here my enthusiasm about my new project, FutsApp.
+A few days ago I shared here my enthusiasm about my new project, Futs.
 
 Now, after the release, you can get more details, so, let's go:
 
@@ -17,4 +17,4 @@ In the app you can create groups and invite your friends to play with you, once 
 
 In the future I want to include special 🌟 features: more notifications, public profile page, players statistic, generate teams and a way to manage group money (sometimes the organizer needs to collect the money).
 
-Finally, you can get the app in App Store here: [bit.ly/futsapp](https://bit.ly/futsapp)
+Finally, you can get the app in App Store [here](https://itunes.apple.com/us/app/futs-organize-partidas-futebol/id1086305668?mt=8)
