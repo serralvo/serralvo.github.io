@@ -1,0 +1,34 @@
+{
+  "transfers": [
+    {
+      "player": {
+        "name": "John",
+        "photoURL": "https://github.com/serralvo/serralvo.github.io/blob/master/foo.jpg"
+      },
+      "fromTeam": {
+        "name": "Corinthians",
+        "imagePath": "cor"
+      },
+      "toTeam": {
+        "name": "Corinthians",
+        "imagePath": "cor"
+      },
+      "isConfirmed": true
+    },
+    {
+      "player": {
+        "name": "Joseph",
+        "photoURL": "https://github.com/serralvo/serralvo.github.io/blob/master/foo.jpg"
+      },
+      "fromTeam": {
+        "name": "Corinthians",
+        "imagePath": "cor"
+      },
+      "toTeam": {
+        "name": "Corinthians",
+        "imagePath": "cor"
+      },
+      "isConfirmed": true
+    }
+  ]
+}
