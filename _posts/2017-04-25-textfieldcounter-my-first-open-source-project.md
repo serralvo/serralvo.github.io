@@ -4,7 +4,7 @@ title: TextFieldCounter 🛠, my first open source project 📢
 layout: post
 ---
 
-UITextField character counter with lovable UX 💖. No math skills required 🙃. Check it [here](https://github.com/serralvo/TextFieldCounter). If you like, give a 🌟
+UITextField character counter with lovable UX 💖. No math skills required 🙃. Check it [here](https://github.com/serralvo/TextFieldCounter). If you liked, give a 🌟
 
 ## About
 
