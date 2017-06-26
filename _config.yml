@@ -6,7 +6,7 @@ email: fabricio.serralvo@gmail.com
 author: Fabricio
 highlighter: rouge
 description: 
-paginate: 5
+paginate: 10
 google_analytics: UA-65004285-1
 
 theme: jekyll-theme-cayman
