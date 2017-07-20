@@ -361,3 +361,9 @@ footer:after {
   content: "";
   display: block;
 }
+
+// someday I'll change it 
+.post-content img {
+    height: 30px;
+    width: auto;
+}
