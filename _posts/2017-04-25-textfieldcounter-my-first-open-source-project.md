@@ -10,13 +10,9 @@ UITextField character counter with lovable UX 💖. No math skills required 🙃
 
 ## About
 
-Five months ago I did my first commit in my first, and published 😅, open source project 🚀. The idea is simple, with TextFieldCounter, you can set the max length of a `UITextField` quickly, also, it includes a label to show the size of text.
+Five months ago I did my first commit in my first, and published 😅, open source project 🚀.
 
-## How it works 🤔
-
-Basically, the component uses `UITextFieldDelegate` to detect some events.
-
-## Motivation 🎯
+The idea is simple, with TextFieldCounter, you can set the max length of a `UITextField` quickly, also, it includes a label to show the size of text (its possible show it by ascending or descending way). Recentely I included Haptic Feedback, and you can setup it using @IBInspectable.
 
 ## Special Thanks 👍
 
