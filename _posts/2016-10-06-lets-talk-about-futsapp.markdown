@@ -2,6 +2,7 @@
 published: true
 title: Let's talk about Futs 😎
 layout: post
+header-img: "img/projects.jpg"
 ---
 A few days ago I shared here my enthusiasm about my new project, Futs.
 

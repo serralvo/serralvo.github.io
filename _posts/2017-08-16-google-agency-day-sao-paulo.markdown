@@ -1,7 +1,8 @@
 ---
 published: true
-title: Google Agency Day 2017 - São Paulo
+title: Google Developers Agency Day 2017 - São Paulo
 layout: post
+header-img: "img/events.jpg"
 ---
 
 More details soon 🙃

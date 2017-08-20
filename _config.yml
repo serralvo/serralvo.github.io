@@ -1,12 +1,24 @@
-excerpt_separator: ""
-markdown: kramdown
-url: http://serralvo.co
+# Site settings
 title: Fabricio Serralvo
+header-img: img/home-bg.jpg
 email: fabricio.serralvo@gmail.com
-author: Fabricio
-highlighter: rouge
-description: 
-paginate: 10
-google_analytics: UA-65004285-1
+copyright_name: Fabricio Serralvo
+description: "Write your site description here. It will be used as your sites meta description as well!"
+baseurl: ""
+url: "http://serralvo.co"
+twitter_username: _serralvo
+github_username: serralvo
+facebook_username: fserralvo
+email_username: fabricio.serralvo@gmail.com
 
-theme: jekyll-theme-cayman
+# Google Analytics
+google_tracking_id: UA-65004285-1
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+paginate: 5
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+
+gems: [jekyll-paginate, jekyll-feed]

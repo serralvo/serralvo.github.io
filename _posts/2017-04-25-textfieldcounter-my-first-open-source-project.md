@@ -2,6 +2,7 @@
 published: true
 title: TextFieldCounter 🛠, my first open source project 📢
 layout: post
+header-img: "img/projects.jpg"
 ---
 
 UITextField character counter with lovable UX 💖. No math skills required 🙃. Check it [here](https://github.com/serralvo/TextFieldCounter). If you liked, give a 🌟

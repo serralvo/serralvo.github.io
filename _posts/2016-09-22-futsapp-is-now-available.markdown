@@ -2,6 +2,7 @@
 published: true
 title: Futs is now available! 🚀
 layout: post
+header-img: "img/projects.jpg"
 ---
 Hell yeah 🎉, nine months ago I started the project, and finally Futs is available!
 
