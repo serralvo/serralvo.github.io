@@ -16,7 +16,7 @@ Version control, in general, is an essencial tool in software development proces
 
 ### Material 📚
 
-You can get the Keynote [here](https://speakerdeck.com/serralvo/mini-curso-de-git) (in Portuguese 🇧🇷).
+You can see the keynote below or get it [here](https://speakerdeck.com/serralvo/mini-curso-de-git) (in Portuguese 🇧🇷).
 
 <script async class="speakerdeck-embed" data-id="fd312f2cb81a4a47a9d53f58f5948f06" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
 
