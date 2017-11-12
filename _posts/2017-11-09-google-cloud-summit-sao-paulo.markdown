@@ -1,3 +1,4 @@
+---
 published: true
 title: Google Cloud Summit - São Paulo
 layout: post
