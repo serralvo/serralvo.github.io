@@ -1,6 +1,6 @@
 ---
 published: true
-title: Notifications in iOS 10
+title: 20º CocoaTalks Campinas: Notifications in iOS 10
 layout: post
 ---
 
