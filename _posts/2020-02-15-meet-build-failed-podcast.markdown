@@ -1,6 +1,6 @@
 ---
 published: true
-title: Meet Build Failed Podcast 
+title: Meet Build Failed Podcast 🎙
 layout: post
 header-img: "img/projects.jpg"
 ---
