@@ -24,7 +24,7 @@ class DiscountCalculator {
             return product.price * 0.05
         } else {
             return product.price * 0.10
-        } 
+        }
     }
 }
 
@@ -34,7 +34,21 @@ So, easy to test `DiscountCalculator`, right? We can inject the product, call `c
 
 ```swift
 
+private let sut = DiscountCalculator()
+
+func test_calculate_withProductThatPriceIsHigherThan100_shouldReturn10PercentageDiscount() {
+    let product = Product(price: 150)
+    
+    let discount = sut.calculate(with: product)
+    
+    XCTAssertEqual(discount, 15)
+}
+
 ```
+
+Perfect, for this example we have control of all **inputs** (`Product`) and visibility of **outputs** (the `Double` that is returned by `calculate` function). There's no **state** here for while. 
+
+But now, imagine that we should give an extra discount if our customer is subscribed to a kind of rewards program and this information can change any time while the customer uses the app, so, and, for our luck, this information is stored into a Singleton.
 
 And now I ask you: what's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle.
 
