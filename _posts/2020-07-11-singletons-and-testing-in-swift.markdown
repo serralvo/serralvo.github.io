@@ -68,7 +68,7 @@ class CustomerManager {
     
     private var customerReward: Reward?
     
-    func setCustomerReward(_ reward :Reward) {
+    func setCustomerReward(_ reward: Reward) {
         customerReward = reward
     }
 
@@ -109,7 +109,42 @@ Perfect 🎉, this works fine and our customers will be happy with these discoun
 
 ---
 
-Now, time to talk about Singletons! What's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. Here we have a big issue about testability, do you remember the point about have control of **state** 
+Now, time to talk about Singletons! What's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the point about have control of **state** to write aceptable unit tests, right? Let's check how we can update the tests of `DiscountCalculator`:
+
+```swift
+
+private let sut = DiscountCalculator()
+
+func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
+    let product = Product(price: 200)
+    CustomerManager.shared.setCustomerReward(Reward.subscribed)
+    
+    let discount = sut.calculate(with: product)
+    
+    XCTAssertEqual(discount, 40)
+}
+
+```
+
+Ok, and what happens if we want to test the unsubscribed scenario? 
+
+```swift
+
+private let sut = DiscountCalculator()
+
+func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
+    let product = Product(price: 200)
+    CustomerManager.shared.setCustomerReward(Reward.unsubscribed)
+    
+    let discount = sut.calculate(with: product)
+    
+    XCTAssertEqual(discount, 20)
+}
+```
+
+Works fine? No my friend, for these tests we **don't have control of all states** and this kind of test is as fragile as a speck. 
+
+--- 
 
 So, what's the problem with Singletons and Tests? The answer is related to a requirement of unit testing and a characteristic of singletons in general:
 
