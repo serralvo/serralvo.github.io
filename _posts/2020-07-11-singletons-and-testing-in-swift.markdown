@@ -10,14 +10,14 @@ Singleton is a very popular design pattern on Apple's ecosystem. You probably ha
 
 Before we start talking about the solution, let's go back to the unit testing theory: to write acceptable unit tests you should have control and visibility of **inputs**, **outputs**, and **states** of what you are testing. Let me give a basic example:
 
-Imagine that we have a class that calculates how much discount customer will get, based on the price of the product:
+Imagine that we have a scene that displays how much discount customer will get on checkout, based on the price of the product:
 
 ```swift
 struct Product {
     let price: Double
 }
 
-class DiscountCalculator {
+class CheckoutInteractor {
     func calculate(with product: Product) -> Double {
         let price = product.price
         if price <= 100 {
@@ -30,11 +30,11 @@ class DiscountCalculator {
 
 ```
 
-So, easy to test `DiscountCalculator`, right? We can inject the product, call `calculate(with product: Product)` function and check if result is expected:
+So, easy to test `CheckoutInteractor`, right? We can inject the product, call `calculate(with product: Product)` function and check if result is expected:
 
 ```swift
 
-private let sut = DiscountCalculator()
+private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_shouldReturn10PercentageDiscount() {
     let product = Product(price: 150)
@@ -83,7 +83,7 @@ So, what we can do? We can use the `CustomerManager` on `DiscountCalculator` to 
 
 ```swift
 
-class DiscountCalculator {
+class CheckoutInteractor {
     func calculate(with product: Product) -> Double {
         let price = product.price
         let discountByPrice: Double
@@ -109,11 +109,11 @@ Perfect 🎉, this works fine and our customers will be happy with these discoun
 
 ---
 
-Now, time to talk about Singletons! What's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the point about have control of **state** to write aceptable unit tests, right? Let's check how we can update the tests of `DiscountCalculator`:
+Now, time to talk about Singletons! What's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the point about have control of **state** to write aceptable unit tests, right? Let's check how we can update the tests of `CheckoutInteractor`:
 
 ```swift
 
-private let sut = DiscountCalculator()
+private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
     let product = Product(price: 200)
@@ -130,7 +130,7 @@ Ok, and what happens if we want to test the unsubscribed scenario?
 
 ```swift
 
-private let sut = DiscountCalculator()
+private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
     let product = Product(price: 200)
@@ -142,12 +142,14 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states** and this kind of test is as fragile as a speck. 
+Works fine? No my friend, for these tests we **don't have control of all states** and this kind of test is fragile like an eggshell.
 
 --- 
 
 So, what's the problem with Singletons and Tests? The answer is related to a requirement of unit testing and a characteristic of singletons in general:
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
+
+My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle: 
 
 
