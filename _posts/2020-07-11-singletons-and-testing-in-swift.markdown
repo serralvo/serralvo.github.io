@@ -142,7 +142,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states** and this kind of test is fragile like an eggshell.
+Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test try get the customer reward? How could we garantee the expected state? 
 
 --- 
 
@@ -150,6 +150,92 @@ So, what's the problem with Singletons and Tests? The answer is related to a req
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
 
-My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle: 
+My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle. Let's change the `CheckoutInteractor` to give more testability, but first, we should change the `CustomerManager`:
 
+```swift
 
+protocol CustomerManagerProtocol {
+    func setCustomerReward(_ reward: Reward)
+    func getReward() -> Reward
+}
+
+class CustomerManager {
+
+    static var shared: CustomerManager = {
+        let manager = CustomerManager()
+        return manager
+    }()
+
+    private init() {}
+    
+    private var customerReward: Reward?
+}
+
+extension CustomerManager: CustomerManagerProtocol {
+
+    func setCustomerReward(_ reward: Reward) {
+        customerReward = reward
+    }
+
+    func getReward() -> Reward {
+        return customerReward ?? Reward.unsubscribed
+    }
+}
+
+``` 
+
+Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is follow the **Dependency Injection** concept and inject the manager to **control all inputs**:
+
+```swift
+
+class CheckoutInteractor {
+
+    private let customerManager: CustomerManagerProtocol
+
+    init(withCustomerManager manager: CustomerManagerProtocol) {
+        self.customerManager = manager
+    }
+
+    func calculate(with product: Product) -> Double {
+        let price = product.price
+        let discountByPrice: Double
+        
+        if price <= 100 {
+            discountByPrice = price * 0.05
+        } else {
+            discountByPrice = price * 0.10
+        }
+        
+        let customerReward = self.customerManager.getReward()        
+        switch customerReward {
+        case .subscribed:
+            return discountByPrice + (price * 0.10)
+        case .unsubscribed:
+            return discountByPrice
+        }
+    }
+}
+
+```
+
+Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, right? So we can pass it on `CheckoutInteractor` initializer:
+
+```swift 
+let interactor = CheckoutInteractor(withCustomerManager: CustomerManager.shared)
+``` 
+If you want more convenience you can set `CustomerManager.shared` as default implementation:
+
+```swift
+
+class CheckoutInteractor {
+
+    private let customerManager: CustomerManagerProtocol
+
+    init(withCustomerManager manager: CustomerManagerProtocol = CustomerManager.shared) {
+        self.customerManager = manager
+    }
+``` 
+
+--- 
+
+We udpated our code to be able to inject and mock whatever we need, now we have control to check every scenario and test it, look: 
