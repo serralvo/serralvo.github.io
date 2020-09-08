@@ -30,7 +30,7 @@ class CheckoutInteractor {
 
 ```
 
-So, easy to test `CheckoutInteractor`, right? We can inject the product, call `calculate(with product: Product)` function and check if result is expected:
+So, easy to test `CheckoutInteractor`, right? We can inject the product, call `calculate(with product: Product)` function and check if the result is expected:
 
 ```swift
 
@@ -109,7 +109,9 @@ Perfect 🎉, this works fine and our customers will be happy with these discoun
 
 ---
 
-Now, time to talk about Singletons! What's the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the point about have control of **state** to write aceptable unit tests, right? Let's check how we can update the tests of `CheckoutInteractor`:
+### Singletons
+
+What is the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the theory about having control of the **states** to write acceptable unit tests, right? Let's check how we can update the tests of `CheckoutInteractor`:
 
 ```swift
 
@@ -142,11 +144,11 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test try get the customer reward? How could we garantee the expected state? 
+Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward? How could we guarantee the expected state?
 
 --- 
 
-So, what's the problem with Singletons and Tests? The answer is related to a requirement of unit testing and a characteristic of singletons in general:
+Finally, what is the problem with Singletons and Tests? The answer is related to a requirement of unit testing and a characteristic of singletons in general:
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
 
@@ -184,7 +186,7 @@ extension CustomerManager: CustomerManagerProtocol {
 
 ``` 
 
-Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is follow the **Dependency Injection** concept and inject the manager to **control all inputs**:
+Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**:
 
 ```swift
 
@@ -238,4 +240,42 @@ class CheckoutInteractor {
 
 --- 
 
-We udpated our code to be able to inject and mock whatever we need, now we have control to check every scenario and test it, look: 
+We've updated our code to be able to **inject** and **mock** whatever we need, now we have control to check every scenario and test it, look:
+
+```swift
+class CustomerManagerMock: CustomerManagerProtocol {
+
+    var rewardToBeReturned: Reward?
+
+    func setCustomerReward(_ reward: Reward) {}
+
+    func getReward() -> Reward {
+        return rewardToBeReturned ?? Reward.unsubscribed
+    }
+
+}
+
+private let customerManagerMock = CustomerManagerMock()
+private lazy var sut = CheckoutInteractor(withCustomerManager: customerManagerMock)
+
+func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
+    let product = Product(price: 200)
+    customerManagerMock.rewardToBeReturned = Reward.subscribed
+    
+    let discount = sut.calculate(with: product)
+    
+    XCTAssertEqual(discount, 40)
+}
+
+func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
+    let product = Product(price: 200)
+    customerManagerMock.rewardToBeReturned = Reward.unsubscribed
+    
+    let discount = sut.calculate(with: product)
+    
+    XCTAssertEqual(discount, 20)
+}
+
+```
+
+### Conclusion 
