@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Singletons and Testing in Swift
 layout: post
 ---
