@@ -1,12 +1,14 @@
 ---
 published: true
-title: Singletons and Testing in Swift
+title: Singletons and Tests in Swift
 layout: post
 ---
 
-# Singletons and Testing in Swift
+# Singletons and Tests in Swift
 
-Singleton is a very popular design pattern on Apple's ecosystem. You probably have faced `Network.shared`, `UserDefaults.standards`, or other similar implementations around your project. To be honest, I think you probably have a Singleton made by your team in your project and you are here looking for some solution that helps you add testability to it. The good news is: you found it.
+> This is my first post that is part of a series about Singletons and Tests in Swift. For this one, I'll show how to make parts of your system that use a Singleton being testable. 
+
+Singleton is a very popular design pattern on Apple's ecosystem. You probably have faced `Network.shared`, `UserDefaults.standard`, or other similar implementations around your project. To be honest, I think you probably have a Singleton made by your team in your project and you are here looking for some solution that helps you add testability to it. The good news is: you found it.
 
 Before we start talking about the solution, let's go back to the unit testing theory: to write acceptable unit tests you should have control and visibility of **inputs**, **outputs**, and **states** of what you are testing. Let me give a basic example:
 
@@ -33,7 +35,6 @@ class CheckoutInteractor {
 So, easy to test `CheckoutInteractor`, right? We can inject the product, call `calculate(with product: Product)` function and check if the result is expected:
 
 ```swift
-
 private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_shouldReturn10PercentageDiscount() {
@@ -51,7 +52,6 @@ Perfect, for this example we have control of all **inputs** (`Product`) and visi
 But now, imagine that we should give an extra discount if our customer is subscribed to a kind of rewards program and this information can change any time while the customer uses the app, so, and, for our luck, this information is stored into a Singleton.
 
 ```swift
-
 enum Reward {
     case subscribed
     case unsubscribed
@@ -82,7 +82,6 @@ class CustomerManager {
 So, what we can do? We can use the `CustomerManager` on `DiscountCalculator` to give the extra discount and everything is gonna be ok:
 
 ```swift
-
 class CheckoutInteractor {
     func calculate(with product: Product) -> Double {
         let price = product.price
@@ -114,7 +113,6 @@ Perfect 🎉, this works fine and our customers will be happy with these discoun
 What is the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the theory about having control of the **states** to write acceptable unit tests, right? Let's check how we can update the tests of `CheckoutInteractor`:
 
 ```swift
-
 private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
@@ -131,7 +129,6 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_
 Ok, and what happens if we want to test the unsubscribed scenario? 
 
 ```swift
-
 private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
@@ -152,10 +149,9 @@ Finally, what is the problem with Singletons and Tests? The answer is related to
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
 
-My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle. Let's change the `CheckoutInteractor` to give more testability, but first, we should change the `CustomerManager`:
+My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle. We should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager`:
 
 ```swift
-
 protocol CustomerManagerProtocol {
     func setCustomerReward(_ reward: Reward)
     func getReward() -> Reward
@@ -186,10 +182,9 @@ extension CustomerManager: CustomerManagerProtocol {
 
 ``` 
 
-Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**:
+Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**, take a look: 
 
 ```swift
-
 class CheckoutInteractor {
 
     private let customerManager: CustomerManagerProtocol
@@ -220,15 +215,14 @@ class CheckoutInteractor {
 
 ```
 
-Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, right? So we can pass it on `CheckoutInteractor` initializer:
+Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, right? Now we can pass it on `CheckoutInteractor` initializer:
 
 ```swift 
 let interactor = CheckoutInteractor(withCustomerManager: CustomerManager.shared)
 ``` 
-If you want more convenience you can set `CustomerManager.shared` as default implementation:
+Tip: If you want more convenience you can set `CustomerManager.shared` as default implementation:
 
 ```swift
-
 class CheckoutInteractor {
 
     private let customerManager: CustomerManagerProtocol
@@ -236,11 +230,12 @@ class CheckoutInteractor {
     init(withCustomerManager manager: CustomerManagerProtocol = CustomerManager.shared) {
         self.customerManager = manager
     }
+}
 ``` 
 
 --- 
 
-We've updated our code to be able to **inject** and **mock** whatever we need, now we have control to check every scenario and test it, look:
+We've updated our code to be able to **inject** and **mock** whatever we need, now we have control to check every scenario and test it:
 
 ```swift
 class CustomerManagerMock: CustomerManagerProtocol {
@@ -279,3 +274,5 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 ```
 
 ### Conclusion 
+
+
