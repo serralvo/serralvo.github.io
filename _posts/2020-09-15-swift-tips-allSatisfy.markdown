@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Swift Tips: allSatisfy
 layout: post
 ---
@@ -47,3 +47,6 @@ let products = [
 ]
 
 let result = allProductsAreGreaterThan50(products)
+``` 
+
+
