@@ -4,7 +4,7 @@ title: Swift Tips: allSatisfy
 layout: post
 ---
 
-# Swift Tips: allSatisfy
+# Swift Tips: `allSatisfy` 
 
 Few days ago I faced the following issue: We have a method that should return if all items of an array has some specific characteristic, for example:
 
