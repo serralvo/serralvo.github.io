@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Swift Tips: allSatisfy
 layout: post
 ---
