@@ -21,14 +21,14 @@ func allProductsAreGreaterThan50(_ products: [Product]) -> Bool {
 The first solution was pretty simple:
 
 ```swift
-func allProductsAreGreaterThan50(_ products: [Product]) -> Bool {
-   var allProductsAreGreaterThan50 = true
+func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+   var allProductsHasValueGreaterThan50 = true
 
    products.forEach {
        if $0.price > 50 {
-           allProductsAreGreaterThan50 = true 
+           allProductsHasValueGreaterThan50 = true 
        } else {
-           allProductsAreGreaterThan50 = false
+           allProductsHasValueGreaterThan50 = false
        }
    }
 
@@ -46,7 +46,9 @@ let products = [
    Product(price: 60)
 ]
 
-let result = allProductsAreGreaterThan50(products)
+let result = allProductsHasValueGreaterThan50(products)
 ``` 
 
-What is the value of `result`? 
+What is the value of `result`? It'll be `true`, what is strange beacause the `value` of 3th Product is 40. Here we have an error on the implementation, we have many ways to fix that, look the example: 
+
+
