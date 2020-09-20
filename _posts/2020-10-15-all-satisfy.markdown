@@ -1,6 +1,6 @@
 ---
 published: true
-title: Swift Tips: allSatisfy 
+title: Swift Tips - allSatisfy 
 layout: post
 ---
 
