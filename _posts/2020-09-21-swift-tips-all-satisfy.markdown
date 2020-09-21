@@ -53,8 +53,8 @@ What is the value of `result`? It'll be `true`, what is strange because the `val
 
 ```swift
 func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
-   let productsWherePriceIsGreaterThan50 = products.filter { $0.price > 50 }
-   return products.count == productsWherePriceIsGreaterThan50.count
+   let productsThatPriceIsGreaterThan50 = products.filter { $0.price > 50 }
+   return products.count == productsThatPriceIsGreaterThan50.count
 }
 ```
 
@@ -67,3 +67,9 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 ```
 
 ## Conclusion 
+
+`allSatisfy` method is a capability of `Sequence` that is available since Swift 5.1, the syntax is pretty clear and will help us to remove all methods like I have presented here above to solve this kind of issue.
+
+## References 
+
+Apple Documentation.
