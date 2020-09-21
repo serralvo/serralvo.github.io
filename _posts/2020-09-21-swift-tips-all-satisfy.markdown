@@ -6,7 +6,7 @@ layout: post
 
 # Swift Tips: allSatisfy 
 
-Few days ago I faced the following issue: We have a method that should return if all items of an array has some specific characteristic, for example:
+A few days ago, I faced the following issue: We have a method that should return if all items of an array have some specific characteristic, for example:
 
 ```swift
 struct Product {
@@ -49,7 +49,7 @@ let products = [
 let result = allProductsHasValueGreaterThan50(products)
 ``` 
 
-What is the value of `result`? It'll be `true`, what is strange because the `value` of 3th Product is `40`. Here we have an error on the implementation, we have many ways to fix that, look the example: 
+What is the value of `result`? It'll be `true`, what is strange because the `value` of 3th Product is `40`. Here we have an error on the implementation and there many ways to fix, for example:
 
 ```swift
 func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
@@ -66,4 +66,4 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 }
 ```
 
-Better, right? 
+## Conclusion 
