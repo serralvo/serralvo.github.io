@@ -13,7 +13,7 @@ struct Product {
    let price: Double
 }
 
-func allProductsAreGreaterThan50(_ products: [Product]) -> Bool {
+func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
    // ...
 }
 ```
@@ -32,7 +32,7 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
        }
    }
 
-   return allProductsAreGreaterThan50
+   return allProductsHasValueGreaterThan50
 }
 ```
 
@@ -49,6 +49,21 @@ let products = [
 let result = allProductsHasValueGreaterThan50(products)
 ``` 
 
-What is the value of `result`? It'll be `true`, what is strange beacause the `value` of 3th Product is 40. Here we have an error on the implementation, we have many ways to fix that, look the example: 
+What is the value of `result`? It'll be `true`, what is strange because the `value` of 3th Product is `40`. Here we have an error on the implementation, we have many ways to fix that, look the example: 
 
+```swift
+func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+   let productsWherePriceIsGreaterThan50 = products.filter { $0.price > 50 }
+   return products.count == productsWherePriceIsGreaterThan50.count
+}
+```
 
+That one ☝️ will work like expected, but we can simplify using `allSatisfy`:
+
+```swift
+func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+   return products.allSatisfy { $0.price > 50 }
+}
+```
+
+Better, right? 
