@@ -6,6 +6,8 @@ layout: post
 
 # Swift Tips: allSatisfy 
 
+> Reading time: 2 minutes
+
 A few days ago, I faced the following issue: We have a method that should return if all items of an array have some specific characteristic, for example:
 
 ```swift
@@ -25,10 +27,9 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
    var allProductsHasValueGreaterThan50 = true
 
    products.forEach {
-       if $0.price > 50 {
-           allProductsHasValueGreaterThan50 = true 
-       } else {
+       if $0.price <= 50 {
            allProductsHasValueGreaterThan50 = false
+           return
        }
    }
 
@@ -36,20 +37,7 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 }
 ```
 
-🤔 What is the problem of this implementation? Imagine if we call `allProductsAreGreaterThan50()` with these parameters:
-
-```swift
-let products = [
-   Product(price: 70),
-   Product(price: 80),
-   Product(price: 40),
-   Product(price: 60)
-]
-
-let result = allProductsHasValueGreaterThan50(products)
-``` 
-
-What is the value of `result`? It'll be `true`, what is strange because the `value` of 3th Product is `40`. Here we have an error on the implementation and there many ways to fix, for example:
+Another way to do that is using a `filter` and check if filtered array and `products` has the same size: 
 
 ```swift
 func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
@@ -72,4 +60,4 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 
 ## References 
 
-Apple Documentation.
+[Apple Documentation](https://developer.apple.com/documentation/swift/array/2994715-allsatisfy)
