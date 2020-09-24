@@ -15,7 +15,7 @@ struct Product {
    let price: Double
 }
 
-func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
    // ...
 }
 ```
@@ -23,7 +23,7 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 The first solution was pretty simple:
 
 ```swift
-func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
    var allProductsHasValueGreaterThan50 = true
 
    products.forEach {
@@ -40,7 +40,7 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 Another way to do that is using a `filter` and check if filtered array and `products` has the same size: 
 
 ```swift
-func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
    let productsThatPriceIsGreaterThan50 = products.filter { $0.price > 50 }
    return products.count == productsThatPriceIsGreaterThan50.count
 }
@@ -49,14 +49,14 @@ func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
 That one ☝️ will work like expected, but we can simplify using `allSatisfy`:
 
 ```swift
-func allProductsHasValueGreaterThan50(_ products: [Product]) -> Bool {
+func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
    return products.allSatisfy { $0.price > 50 }
 }
 ```
 
 ## Conclusion 
 
-`allSatisfy` method is a capability of `Sequence` that is available since Swift 5.1, the syntax is pretty clear and will help us to remove all methods like I have presented here above to solve this kind of issue.
+`allSatisfy` method is a capability of `Sequence` that is available since Swift 5.1, the syntax is pretty clear and will help us to remove all methods like I have presented here to solve this kind of issue.
 
 ## References 
 
