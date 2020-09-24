@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: Singletons and Tests in Swift
 layout: post
 ---
@@ -141,7 +141,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward? How could we guarantee the expected state?
+Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state?
 
 --- 
 
@@ -149,7 +149,19 @@ Finally, what is the problem with Singletons and Tests? The answer is related to
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
 
-My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle. We should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager`:
+My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle:
+
+#### Dependency Injection
+
+// what is, why is important, quote product example and add some link about
+
+#### Dependency Inversion Principle
+
+// what is, why is important, create an exemple and add some link about
+
+--- 
+
+Now we should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager`:
 
 ```swift
 protocol CustomerManagerProtocol {
@@ -275,4 +287,4 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 
 ### Conclusion 
 
-
+// Write just a little about benefits in general, if there's another way and add some links
