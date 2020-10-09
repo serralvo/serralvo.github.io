@@ -157,7 +157,7 @@ My point now is: how to get back the control of all states that test needs? The 
 
 #### Dependency Inversion Principle
 
-// what is, why is important, create an exemple and add some link about
+This one is part of SOLID principles, in a short way the goal is make your system depends on abstractions (interfaces / protocols) instead concreates.
 
 --- 
 
