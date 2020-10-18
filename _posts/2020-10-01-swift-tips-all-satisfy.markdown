@@ -4,9 +4,7 @@ title: Swift Tips - allSatisfy
 layout: post
 ---
 
-# Swift Tips: allSatisfy 
-
-> Reading time: 3 minutes
+This article will take about 3 minutes to read.
 
 A few days ago, I faced the following issue: We have a method that should return if all items of an array have some specific characteristic, for example:
 

@@ -1,12 +1,10 @@
 ---
 published: true
-title: Singletons and Tests in Swift
+title: Mocking Singleton to increase testability in Swift
 layout: post
 ---
 
-# Singletons and Tests in Swift
-
-This article will take about 15 minutes to read.
+This article will take about 10 minutes to read.
 
 > This is my first post that is part of a series about Singletons and Tests in Swift. In this one, I'll show how to make parts of your system that use a Singleton being testable. 
 
