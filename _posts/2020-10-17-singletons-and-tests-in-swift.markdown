@@ -1,12 +1,14 @@
 ---
-published: false
+published: true
 title: Singletons and Tests in Swift
 layout: post
 ---
 
 # Singletons and Tests in Swift
 
-> This is my first post that is part of a series about Singletons and Tests in Swift. For this one, I'll show how to make parts of your system that use a Singleton being testable. 
+This article will take about 15 minutes to read.
+
+> This is my first post that is part of a series about Singletons and Tests in Swift. In this one, I'll show how to make parts of your system that use a Singleton being testable. 
 
 Singleton is a very popular design pattern on Apple's ecosystem. You probably have faced `Network.shared`, `UserDefaults.standard`, or other similar implementations around your project. To be honest, I think you probably have a Singleton made by your team in your project and you are here looking for some solution that helps you add testability to it. The good news is: you found it.
 
@@ -153,15 +155,15 @@ My point now is: how to get back the control of all states that test needs? The 
 
 #### Dependency Injection
 
-// what is, why is important, quote product example and add some link about
+<a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">This technique</a> helps us to take control of inputs of our system, thus ensuring testability. 
 
 #### Dependency Inversion Principle
 
-This one is part of SOLID principles, in a short way the goal is make your system depends on abstractions (interfaces / protocols) instead concreates.
+This one is part of <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank">SOLID Principles</a>, in a short way the goal is to make your system depends on abstractions (protocols) instead of concreates. Using interfaces allow us to mock parts of our system easily.
 
 --- 
 
-Now we should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager`:
+Now we should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager` applying the Dependency Inversion Principle:
 
 ```swift
 protocol CustomerManagerProtocol {
@@ -194,7 +196,7 @@ extension CustomerManager: CustomerManagerProtocol {
 
 ``` 
 
-Here we are applying the ideas of **Dependency Inversion Principle**, we've created an interface and all our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to get back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**, take a look: 
+Here we are implementing the ideas of **Dependency Inversion Principle**, we've created an interface and whole our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to take back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**, take a look: 
 
 ```swift
 class CheckoutInteractor {
@@ -232,7 +234,7 @@ Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, righ
 ```swift 
 let interactor = CheckoutInteractor(withCustomerManager: CustomerManager.shared)
 ``` 
-Tip: If you want more convenience you can set `CustomerManager.shared` as default implementation:
+Tip 💡 If you want more convenience you can set `CustomerManager.shared` as default implementation:
 
 ```swift
 class CheckoutInteractor {
@@ -287,4 +289,4 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 
 ### Conclusion 
 
-// Write just a little about benefits in general, if there's another way and add some links
+This technique presented here is really useful and will help you to test parts of your system that depends on singletons. A pro tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
