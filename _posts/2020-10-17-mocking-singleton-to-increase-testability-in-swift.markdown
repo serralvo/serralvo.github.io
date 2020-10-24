@@ -141,7 +141,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state?
+Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state? Remember, if you run your tests in randomic order won't be possible guarantee the _orchestrated state_, besides that, this kind of test does not follow <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T principles</a> because they are not isolated / independent.
 
 --- 
 
