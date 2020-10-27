@@ -59,10 +59,7 @@ enum Reward {
 
 class CustomerManager {
 
-    static var shared: CustomerManager = {
-        let manager = CustomerManager()
-        return manager
-    }()
+    static var shared: CustomerManager = .init()
 
     private init() {}
     
@@ -141,7 +138,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state? Remember, if you run your tests in randomic order won't be possible guarantee the _orchestrated state_, besides that, this kind of test does not follow <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T principles</a> because they are not isolated / independent.
+Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state? Remember, if you run your tests in randomic order won't be possible guarantee the _orchestrated state_, besides that, this kind of test does not follow F.I.R.S.T principles¹ because they are not isolated / independent.
 
 --- 
 
@@ -153,11 +150,11 @@ My point now is: how to get back the control of all states that test needs? The 
 
 #### Dependency Injection
 
-<a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">This technique</a> helps us to take control of inputs of our system, thus ensuring testability. 
+This technique² helps us to take control of inputs of our system, thus ensuring testability. 
 
 #### Dependency Inversion Principle
 
-This one is part of <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank">SOLID Principles</a>, in a short way the goal is to make your system depends on abstractions (protocols) instead of concreates. Using interfaces allow us to mock parts of our system easily.
+This one is part of SOLID Principles³, in a short way the goal is to make your system depends on abstractions (protocols) instead of concreates. Using interfaces allow us to mock parts of our system easily.
 
 --- 
 
@@ -287,4 +284,9 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 
 ### Conclusion 
 
-This technique presented here is really useful and will help you to test parts of your system that depends on singletons. A pro tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
+The technique presented here is really useful and will help you to test parts of your system that **depends on singletons**. A pro tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
+
+### References
+1. <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T Principles</a>
+2. <a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency Injection</a>
+3. <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank">SOLID Principles</a>
