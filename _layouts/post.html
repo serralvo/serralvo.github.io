@@ -12,6 +12,9 @@ layout: default
                     {% if page.subtitle %}
                     <h2 class="subheading">{{ page.subtitle }}</h2>
                     {% endif %}
+                    {% if page.reading-time %}
+                    <h4 class="subheading">{{ page.reading-time }}</h4>
+                    {% endif %}
                     <span class="meta">Posted on {{ page.date | date: "%B %-d, %Y" }}</span>
                 </div>
             </div>
