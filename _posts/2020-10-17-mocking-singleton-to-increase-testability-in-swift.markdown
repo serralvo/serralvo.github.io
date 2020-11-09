@@ -5,8 +5,6 @@ reading-time: 10
 layout: post
 ---
 
-This article will take about 10 minutes to read.
-
 > This is my first post that is part of a series about Singletons and Tests in Swift. In this one, I'll show how to make parts of your system that use a Singleton being testable. 
 
 Singleton is a very popular design pattern on Apple's ecosystem. You probably have faced `Network.shared`, `UserDefaults.standard`, or other similar implementations around your project. To be honest, I think you probably have a Singleton made by your team in your project and you are here looking for some solution that helps you add testability to it. The good news is: you found it.
