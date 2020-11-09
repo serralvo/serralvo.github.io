@@ -1,6 +1,7 @@
 ---
 published: true
 title: Mocking Singleton to increase testability in Swift
+reading-time: 10
 layout: post
 ---
 
