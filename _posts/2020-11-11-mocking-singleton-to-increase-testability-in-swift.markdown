@@ -1,7 +1,7 @@
 ---
 published: true
 title: Mocking Singleton to increase testability in Swift
-reading-time: 10
+reading-time: 12
 layout: post
 ---
 
@@ -167,10 +167,7 @@ protocol CustomerManagerProtocol {
 
 class CustomerManager {
 
-    static var shared: CustomerManager = {
-        let manager = CustomerManager()
-        return manager
-    }()
+    static var shared: CustomerManager = .init()
 
     private init() {}
     
@@ -228,7 +225,7 @@ Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, righ
 ```swift 
 let interactor = CheckoutInteractor(withCustomerManager: CustomerManager.shared)
 ``` 
-Tip 💡 If you want more convenience you can set `CustomerManager.shared` as default implementation:
+If you want more convenience you can set `CustomerManager.shared` as the default implementation, but **be careful** with this approach, if you forget to pass a mock, the tests will use the concrete instance (`CustomerManager.shared`) and this could generate a flaky test.
 
 ```swift
 class CheckoutInteractor {
@@ -283,7 +280,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 
 ### Conclusion 
 
-The technique presented here is really useful and will help you to test parts of your system that **depends on singletons**. A pro tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
+The technique presented here is really useful and will help you to test parts of your system that **depends on singletons**. Another tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
 
 ### References
 1. <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T Principles</a>
