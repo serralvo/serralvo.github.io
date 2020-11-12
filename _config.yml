@@ -3,13 +3,11 @@ title: Fabricio Serralvo
 header-img: img/home-bg.jpg
 email: fabricio.serralvo@gmail.com
 copyright_name: Fabricio Serralvo
-description: "Hey there 👋 I'm iOS Software Engineer from 🇧🇷 and here I write about Swift, Tests and Software Development in general"
+description: "Articles about Swift, tests and software good practices"
 baseurl: ""
 url: "http://serralvo.co"
 twitter_username: serralvo_
 github_username: serralvo
-facebook_username: fserralvo
-email_username: fabricio.serralvo@gmail.com
 
 # Google Analytics
 google_tracking_id: UA-65004285-1
