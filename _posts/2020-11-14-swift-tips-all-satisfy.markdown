@@ -1,10 +1,9 @@
 ---
 published: true
 title: Swift Tips - allSatisfy 
+reading-time: 3
 layout: post
 ---
-
-This article will take about 3 minutes to read.
 
 A few days ago, I faced the following issue: We have a method that should return if all items of an array have some specific characteristic, for example:
 
@@ -37,7 +36,7 @@ func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
 }
 ```
 
-Another way to do that is using a `filter` and check if filtered array and `products` has the same size: 
+Another way to do that is by using a `filter` and check if the filtered array and `products` have the same size:
 
 ```swift
 func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
@@ -61,7 +60,9 @@ func allProductsHaveValueGreaterThan50(_ products: [Product]) -> Bool {
 
 ## Conclusion and some thoughts
 
-`allSatisfy` method is a capability of `Array` that is available since Swift 5.1, the syntax is pretty clear and will help us to remove all methods like I have presented here to solve this kind of issue. If you don't want to check array size every time, you can create an extension to encapsulate this rule:
+`allSatisfy` method is a capability of `Array` that is available since Swift 5.1, the syntax is pretty clear and will help us to remove all methods like I have presented here to solve this kind of issue. If you use `allSatisfy` in an empty collection you will get `true` as result, what could be weird for a moment but <a href="https://medium.com/@suyash.srijan/allsatisfy-669484983181" target="_blank">here</a> there's a good explanation about.
+
+If you don't want to check array size every time, you can create an extension to encapsulate this rule:
 
 ```swift
 extension Array {
