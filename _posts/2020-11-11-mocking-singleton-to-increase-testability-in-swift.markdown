@@ -11,7 +11,7 @@ Singleton is a very popular design pattern on Apple's ecosystem. You probably ha
 
 Before we start talking about the solution, let's go back to the unit testing theory: to write acceptable unit tests you should have control and visibility of **inputs**, **outputs**, and **states** of what you are testing. Let me give a basic example:
 
-Imagine that we have a scene that displays how much discount customer will get on checkout, based on the price of the product:
+Imagine that we have a scene that displays how much discount a customer will get on checkout, based on the price of the product:
 
 ```swift
 struct Product {
@@ -48,10 +48,10 @@ func test_calculate_withProductThatPriceIsHigherThan100_shouldReturn10Percentage
 
 Perfect, for this example we have control of all **inputs** (`Product`) and visibility of **outputs** (the `Double` that is returned by `calculate` function). There's no **state** here for while. 
 
-But now, imagine that we should give an extra discount if our customer is subscribed to a kind of rewards program and this information can change any time while the customer uses the app, so, and, for our luck, this information is stored into a Singleton.
+But now, imagine that we should give an extra discount if our customer is subscribed to a kind of loyalty program and this information can change any time while the customer is using the app. For our luck (actually just for the purposes of this article), this information is stored in a Singleton.
 
 ```swift
-enum Reward {
+enum LoyaltyStatus {
     case subscribed
     case unsubscribed
 }
@@ -62,20 +62,20 @@ class CustomerManager {
 
     private init() {}
     
-    private var customerReward: Reward?
+    private var customerLoyaltyStatus: LoyaltyStatus?
     
-    func setCustomerReward(_ reward: Reward) {
-        customerReward = reward
+    func setCustomerLoyaltyStatus(_ status: LoyaltyStatus) {
+        customerLoyaltyStatus = status
     }
 
-    func getReward() -> Reward {
-        return customerReward ?? Reward.unsubscribed
+    func getLoyaltyStatus() -> LoyaltyStatus {
+        return customerLoyaltyStatus ?? .unsubscribed
     }
 }
 
 ``` 
 
-So, what we can do? We can use the `CustomerManager` on `DiscountCalculator` to give the extra discount and everything is gonna be ok:
+So, what can we do? We can use the `CustomerManager` on `DiscountCalculator` to give the extra discount and everything is gonna be ok:
 
 ```swift
 class CheckoutInteractor {
@@ -89,8 +89,8 @@ class CheckoutInteractor {
             discountByPrice = price * 0.10
         }
         
-        let customerReward = CustomerManager.shared.getReward()        
-        switch customerReward {
+        let customerLoyaltyStatus = CustomerManager.shared.getLoyaltyStatus()
+        switch customerLoyaltyStatus {
         case .subscribed:
             return discountByPrice + (price * 0.10)
         case .unsubscribed:
@@ -106,14 +106,14 @@ Perfect 🎉, this works fine and our customers will be happy with these discoun
 
 ### Singletons
 
-What is the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. So, here we have a big issue about testability, do you remember the theory about having control of the **states** to write acceptable unit tests, right? Let's check how we can update the tests of `CheckoutInteractor`:
+What is the main goal of a singleton? To keep a unique and shared instance of something throughout the app's lifecycle. However, that goes against the theory of writing acceptable units tests, where we must have control of the **states**. Let's check how we can update the tests of `CheckoutInteractor`:
 
 ```swift
 private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
     let product = Product(price: 200)
-    CustomerManager.shared.setCustomerReward(Reward.subscribed)
+    CustomerManager.shared.setCustomerLoyaltyStatus(.subscribed)
     
     let discount = sut.calculate(with: product)
     
@@ -129,7 +129,7 @@ private let sut = CheckoutInteractor()
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
     let product = Product(price: 200)
-    CustomerManager.shared.setCustomerReward(Reward.unsubscribed)
+    CustomerManager.shared.setCustomerLoyaltyStatus(.unsubscribed)
     
     let discount = sut.calculate(with: product)
     
@@ -137,7 +137,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 }
 ```
 
-Works fine? No my friend, for these tests we **don't have control of all states**, this kind of test is fragile like an eggshell, for example, what happens if another test tries to get the customer reward or set it? How could we guarantee the expected state? Remember, if you run your tests in randomic order won't be possible guarantee the _orchestrated state_, besides that, this kind of test does not follow F.I.R.S.T principles¹ because they are not isolated / independent.
+Isn't this fine? No, my friend. In these tests we **don't have control of all states**. This kind of test is fragile like an eggshell. For example, what happens if another test tries to get or set the customer loyalty program status? How could we guarantee the expected state? Remember: if you run your tests in a random order, it won't be possible guarantee the _orchestrated state_. Besides that, this kind of test does not follow F.I.R.S.T. principles¹ because they are not isolated/independent.
 
 --- 
 
@@ -145,7 +145,7 @@ Finally, what is the problem with Singletons and Tests? The answer is related to
 
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/singletons-and-testing.jpg" />
 
-My point now is: how to get back the control of all states that test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle:
+My point now is: how to get back the control of all states that the test needs? The answer is a **mix of two techniques**: Dependency Injection and Dependency Inversion Principle:
 
 #### Dependency Injection
 
@@ -153,16 +153,16 @@ This technique² helps us to take control of inputs of our system, thus ensuring
 
 #### Dependency Inversion Principle
 
-This one is part of SOLID Principles³, in a short way the goal is to make your system depends on abstractions (protocols) instead of concreates. Using interfaces allow us to mock parts of our system easily.
+This one is part of S.O.L.I.D. Principles³. Long story short: the goal is to make your system depend on abstractions (protocols) instead of concrete elements. The use of interfaces allows us to mock parts of our system easily.
 
 --- 
 
-Now we should update the `CheckoutInteractor` to give more testability, but first, let's change the `CustomerManager` applying the Dependency Inversion Principle:
+Now we should update the `CheckoutInteractor` to allow more testability, but first, let's change the `CustomerManager` to apply the Dependency Inversion Principle:
 
 ```swift
 protocol CustomerManagerProtocol {
-    func setCustomerReward(_ reward: Reward)
-    func getReward() -> Reward
+    func setCustomerLoyaltyStatus(_ status: LoyaltyStatus)
+    func getLoyaltyStatus() -> LoyaltyStatus
 }
 
 class CustomerManager {
@@ -171,23 +171,23 @@ class CustomerManager {
 
     private init() {}
     
-    private var customerReward: Reward?
+    private var customerLoyaltyStatus: LoyaltyStatus?
 }
 
 extension CustomerManager: CustomerManagerProtocol {
 
-    func setCustomerReward(_ reward: Reward) {
-        customerReward = reward
+    func setCustomerLoyaltyStatus(_ status: LoyaltyStatus) {
+        customerLoyaltyStatus = status
     }
 
-    func getReward() -> Reward {
-        return customerReward ?? Reward.unsubscribed
+    func getLoyaltyStatus() -> LoyaltyStatus {
+        return customerLoyaltyStatus ?? .unsubscribed
     }
 }
 
 ``` 
 
-Here we are implementing the ideas of **Dependency Inversion Principle**, we've created an interface and whole our code will use `CustomerManagerProtocol` (the abstraction) instead `CustomerManager` (the concrete), this will help us to take back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**, take a look: 
+Here we are implementing the ideas of **Dependency Inversion Principle**: we've created an interface and our code will now use `CustomerManagerProtocol` (the abstraction) instead of `CustomerManager` (a concrete implementation), this will help us to take back the **control of states**. The second step is to follow the **Dependency Injection** concept and inject the manager to **control all inputs**:
 
 ```swift
 class CheckoutInteractor {
@@ -208,8 +208,8 @@ class CheckoutInteractor {
             discountByPrice = price * 0.10
         }
         
-        let customerReward = self.customerManager.getReward()        
-        switch customerReward {
+        let customerLoyaltyStatus = self.customerManager.getLoyaltyStatus()
+        switch customerLoyaltyStatus {
         case .subscribed:
             return discountByPrice + (price * 0.10)
         case .unsubscribed:
@@ -220,7 +220,7 @@ class CheckoutInteractor {
 
 ```
 
-Look, our singleton `CustomerManager` implements `CustomerManagerProtocol`, right? Now we can pass it on `CheckoutInteractor` initializer:
+As you can see, our singleton `CustomerManager` implements `CustomerManagerProtocol`, so now we can pass it to `CheckoutInteractor` initializer:
 
 ```swift 
 let interactor = CheckoutInteractor(withCustomerManager: CustomerManager.shared)
@@ -240,19 +240,18 @@ class CheckoutInteractor {
 
 --- 
 
-We've updated our code to be able to **inject** and **mock** whatever we need, now we have control to check every scenario and test it:
+We've updated our code to be able to **inject** and **mock** whatever we need. Now we have control to check every scenario and test it:
 
 ```swift
 class CustomerManagerMock: CustomerManagerProtocol {
 
-    var rewardToBeReturned: Reward?
+    var loyaltyStatusToBeReturned: LoyaltyStatus?
 
-    func setCustomerReward(_ reward: Reward) {}
+    func setCustomerLoyaltyStatus(_ status: LoyaltyStatus) {}
 
-    func getReward() -> Reward {
-        return rewardToBeReturned ?? Reward.unsubscribed
+    func getLoyaltyStatus() -> LoyaltyStatus {
+        return loyaltyStatusToBeReturned ?? .unsubscribed
     }
-
 }
 
 private let customerManagerMock = CustomerManagerMock()
@@ -260,7 +259,7 @@ private lazy var sut = CheckoutInteractor(withCustomerManager: customerManagerMo
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_shouldReturn20PercentageDiscount() {
     let product = Product(price: 200)
-    customerManagerMock.rewardToBeReturned = Reward.subscribed
+    customerManagerMock.loyaltyStatusToBeReturned = .subscribed
     
     let discount = sut.calculate(with: product)
     
@@ -269,7 +268,7 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsSubscribed_
 
 func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribed_shouldReturn10PercentageDiscount() {
     let product = Product(price: 200)
-    customerManagerMock.rewardToBeReturned = Reward.unsubscribed
+    customerManagerMock.loyaltyStatusToBeReturned = .unsubscribed
     
     let discount = sut.calculate(with: product)
     
@@ -280,9 +279,9 @@ func test_calculate_withProductThatPriceIsHigherThan100_andCustomerIsUnsubscribe
 
 ### Conclusion 
 
-The technique presented here is really useful and will help you to test parts of your system that **depends on singletons**. Another tip is related to mocks in general, consider the idea of creating just one mock for each singleton and keep it accessible for the whole project, avoiding multiples implementations for the same necessity.
+The technique presented here is really useful and will help you test parts of your system that **depend on singletons**. Going further, you can also consider the idea of creating just one mock for each singleton and keeping it accessible in the whole project, avoiding multiples implementations for the same necessity.
 
 ### References
-1. <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T Principles</a>
+1. <a href="http://agileinaflash.blogspot.com/2009/02/first.html" target="_blank">F.I.R.S.T. Principles</a>
 2. <a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency Injection</a>
-3. <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank">SOLID Principles</a>
+3. <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank">S.O.L.I.D. Principles</a>
