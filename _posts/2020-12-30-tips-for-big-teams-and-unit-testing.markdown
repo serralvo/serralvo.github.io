@@ -18,7 +18,7 @@ When a project starts to grow fast (e.g. double the size in less than a year) an
 <img src="https://raw.githubusercontent.com/serralvo/serralvo.github.io/master/_posts/approaches_and_engineers.png" />
 <small>Created on <a href="https://www.autodraw.com" target="_blank">autodraw.com/</a></small>
 
-</hr>
+<hr>
 
 So, if your team is growing fast, you are recognizing the situations that I described above, and want to avoid the _red arrow_, consider following my tips about unit testing at scale:
 
@@ -30,6 +30,6 @@ So, if your team is growing fast, you are recognizing the situations that I desc
 
 - If your project has mechanisms that are used in the whole app (a singleton, for example), consider creating reusable mocks for that. Imagine if each test creates a private spy class about a protocol, what will happen when this protocol got a change? You will need to change all _spies_ of this one. Reusable mocks, please.
 
-</hr>
+<hr>
 
 Special thanks to <a href="https://twitter.com/rogerluan_" target="_blank">Roger Oba.</a>
