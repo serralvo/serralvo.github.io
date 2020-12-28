@@ -1,7 +1,7 @@
 ---
-published: false
+published: true
 title: Tips for big teams and unit testing
-reading-time: 1
+reading-time: 3
 layout: post
 ---
 
