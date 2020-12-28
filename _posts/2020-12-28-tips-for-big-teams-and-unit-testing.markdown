@@ -30,6 +30,8 @@ So, if your team is growing fast, you are recognizing the situations that I desc
 
 - If your project has mechanisms that are used in the whole app (a singleton, for example), consider creating reusable mocks for that. Imagine if each test creates a private spy class about a protocol, what will happen when this protocol got a change? You will need to change all _spies_ of this one. Reusable mocks, please.
 
+As you can see, all of these tips are related to **guidelines** and **automations**, ingredients that are crucial to work at scale.
+
 <hr>
 
 Special thanks to <a href="https://twitter.com/rogerluan_" target="_blank">Roger Oba.</a>
